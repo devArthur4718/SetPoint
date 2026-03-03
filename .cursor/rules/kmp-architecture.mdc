@@ -1,0 +1,32 @@
+---
+description: Arquitetura KMP — shared vs platform, source sets, camadas
+globs: "**/shared/**/*.kt","**/composeApp/**/*.kt"
+alwaysApply: false
+---
+
+# Arquitetura — Kotlin Multiplatform
+
+## Princípio central
+
+- **Lógica de negócio no shared** (commonMain): modelos de domínio, regras, validação, rede, cache, estado, criptografia.
+- **UI e integrações de plataforma nos apps**: Android (composeApp/androidMain), iOS (composeApp/iosMain), JVM/JS/Wasm conforme targets.
+
+## Source sets
+
+- **commonMain**: código compilado para todos os targets; sem APIs de plataforma (JDK, Foundation, etc.).
+- **commonTest**: testes compartilhados; usar `kotlin.test`.
+- **androidMain**, **iosMain**, **jvmMain**, etc.: apenas quando for necessário código específico da plataforma.
+- **expected/actual**: usar para abstrair APIs de plataforma (ex.: data/hora, armazenamento, HTTP client) quando a API comum não bastar.
+
+## Direção de dependência
+
+- commonMain **não** pode depender de androidMain, iosMain, jvmMain, etc.
+- Platform source sets **podem** usar commonMain. Módulos de app (composeApp) dependem do shared, não o contrário.
+
+## Camadas no shared (recomendado)
+
+1. **domain**: entidades, interfaces de repositório, regras puras.
+2. **data**: implementações (repositórios, DTOs, fontes de dados); usar expect/actual para plataforma quando necessário.
+3. **di / presentation (opcional)**: injeção de dependência e ViewModels/estado se ficarem no shared.
+
+Manter o shared sem referências a Compose/Android/iOS; a UI fica nos módulos de app.

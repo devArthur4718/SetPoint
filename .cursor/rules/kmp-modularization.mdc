@@ -1,0 +1,35 @@
+---
+description: Estratégia de modularização em KMP — módulos e dependências
+globs: "**/*.gradle.kts","**/shared/**/*.kt","**/composeApp/**/*.kt"
+alwaysApply: false
+---
+
+# Estratégia de Modularização — KMP
+
+## Estrutura alvo (SetPoint)
+
+- **:shared**: lógica e dados compartilhados (commonMain + platform source sets se necessário). Vários targets (android, ios, jvm, js, wasm).
+- **:composeApp**: aplicação Compose Multiplatform; depende de `:shared`; contém UI e integração por plataforma.
+- **:server**: backend (ex.: Ktor); independente do shared para compilação; pode consumir contratos ou DTOs via lib separada se necessário.
+
+## Regras de dependência
+
+- Apps (composeApp) e server **dependem** de shared (ou de módulos de domínio/dados), nunca o contrário.
+- Shared **não** depende de composeApp nem de server.
+- Se crescer: extrair **:core** (domínio + interfaces) e **:data** ou módulos por feature; cada feature pode depender de core.
+
+## Quando modularizar mais
+
+- Projeto pequeno: um módulo shared é suficiente.
+- Múltiplas equipes ou domínios grandes: separar por feature ou por camada (core, data, featureX).
+- Cada módulo KMP declara seus `targets` e `sourceSets`; plataformas consomem apenas os módulos que precisam.
+
+## Hierarquia de source sets (opcional)
+
+- Para compartilhar código só entre targets Apple: usar source set intermediário (ex.: `appleMain`) em vez de duplicar em `iosArm64Main`, `macosMain`, etc.
+- Declarar targets no `kotlin { }` do módulo e usar os source sets que o Gradle criar (commonMain, androidMain, iosMain, etc.).
+
+## Gradle
+
+- Usar `enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")` e referenciar módulos com `projects.shared`, `projects.composeApp`.
+- Aplicar ktlint/detekt em subprojetos a partir do root quando possível, para consistência entre shared e composeApp.

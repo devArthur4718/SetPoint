@@ -1,0 +1,43 @@
+---
+description: Padrão de formato de código Kotlin/KMP (ktlint, convenções)
+globs: "**/*.kt"
+alwaysApply: false
+---
+
+# Formato de Código — Kotlin Multiplatform
+
+## Convenções gerais
+
+- Seguir o [Kotlin Official Code Style](https://kotlinlang.org/docs/coding-conventions.html).
+- Indentação: 4 espaços. Continuation indent: 4 espaços (não dobrar).
+- Limite de linha: 120 caracteres (configurável via `.editorconfig`).
+- Evitar wildcard imports; preferir imports explícitos.
+
+## Exemplos
+
+```kotlin
+// ❌ Evitar: wildcard, linha longa sem quebra
+import com.devarthur.setpoint.*
+
+fun process(items: List<Item>) = items.filter { it.isValid }.map { it.toDto() }
+
+// ✅ Preferir: imports explícitos, quebra legível
+import com.devarthur.setpoint.domain.Item
+import com.devarthur.setpoint.domain.toDto
+
+fun process(items: List<Item>) = items
+    .filter { it.isValid }
+    .map { it.toDto() }
+```
+
+## Ferramentas
+
+- **ktlint**: linter/formatter padrão; aplicar em todos os módulos KMP (`**/*.kt`).
+- **.editorconfig**: `ktlint_code_style = ktlint_official` ou `android_studio`; definir `max_line_length`, `indent_size`, `ij_kotlin_allow_trailing_comma`.
+- **Explicit API**: em módulos shared, considerar `explicitApi()` no `compilerOptions` para APIs públicas estáveis.
+
+## Nomenclatura
+
+- Pacotes: lowercase, sem underscores (`com.devarthur.setpoint.domain`).
+- Classes/objetos: PascalCase. Funções e propriedades: camelCase. Constantes: UPPER_SNAKE_CASE em `object` ou top-level.
+- Arquivos: nome do arquivo = nome da classe principal ou descritivo em camelCase (ex.: `UserRepository.kt`, `formatDate.kt`).

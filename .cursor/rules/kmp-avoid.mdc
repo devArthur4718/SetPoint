@@ -1,0 +1,35 @@
+---
+description: O que DEVE ser evitado em KMP — anti-padrões e pitfalls
+globs: "**/*.kt"
+alwaysApply: false
+---
+
+# O que DEVE ser evitado — KMP
+
+## No código comum (commonMain)
+
+- **Não** usar APIs de uma única plataforma: `java.io.File`, `platform.Foundation.*`, etc. Usar expect/actual ou bibliotecas KMP.
+- **Não** chamar `Throwable.printStackTrace()` em código que roda em Kotlin/Native (pode travar a UI ao ler símbolos DWARF). Preferir logging em background ou IDs de erro leves.
+- **Não** compartilhar “tudo” por moda: evitar no shared detalhes de serialização/date-time/concorrência que divergem entre plataformas; isolar em expect/actual quando necessário.
+- **Não** usar escape sequences estilo Android (`\'`, `\"`) em strings que vão para recursos Compose Multiplatform no iOS; preferir aspas tipográficas ou entidades.
+
+## Arquitetura e dependências
+
+- **Não** fazer commonMain depender de source sets de plataforma ou de módulos só-Android/só-iOS.
+- **Não** expor APIs instáveis sem anotação: usar `@RequiresOptIn` para APIs experimentais e documentar breaking changes.
+- **Não** deixar dependências transitivas ambíguas; declarar versões e usar resolução estrita quando possível.
+
+## Organização e expectativas
+
+- **Não** tratar iOS como “só conectar views”: exige código Swift/nativo e entendimento dos frameworks da Apple; planejar esforço de ambas as plataformas.
+- **Não** colocar UI (Compose ou views nativas) no módulo shared; manter UI nos módulos de app (ex.: composeApp).
+
+## Resumo rápido
+
+| Evitar | Preferir |
+|--------|----------|
+| `java.io.*` / APIs JVM em commonMain | expect/actual ou libs KMP |
+| `printStackTrace()` em código Native | Log em background ou error IDs |
+| Shared dependendo de platform | Platform depende de shared |
+| UI no shared | UI em composeApp / iosApp |
+| APIs públicas instáveis sem opt-in | `@RequiresOptIn` e documentação |
