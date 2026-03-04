@@ -40,7 +40,7 @@ Referência única para saber **quais specs existem** e **quais ainda faltam cri
 | 15 | `spec-15-ui-telas-aluno-v1.md` | UI: telas do aluno | Sim |
 | 16 | `spec-16-ui-design-system-identidade-v1.md` | UI: design system e identidade visual | Sim |
 | 17 | `spec-17-ui-animacoes-motion-v1.md` | UI: animações e motion | Sim |
-| 18 | `spec-18-autenticacao-login-v1.md` | Autenticação: login com e-mail e senha | Não |
+| 18 | `spec-18-autenticacao-login-v1.md` | Autenticação: login com e-mail e senha | Em PR |
 | 19 | `spec-19-marca-logo-setpoint-v1.md` | Marca: logo simples e estilizada | Não |
 | 20 | `spec-20-feature-criar-conta-v1.md` | Feature: criar conta (autocadastro) | Não |
 | 21 | `spec-21-ui-criar-conta-v1.md` | UI: criar conta (telas de cadastro) | Não |
