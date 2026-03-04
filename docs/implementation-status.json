@@ -1,0 +1,62 @@
+{
+  "project": "SetPoint",
+  "description": "Status atual da implementação — ponto de desenvolvimento e pendências",
+  "exportedAt": "2026-03-04",
+  "stack": "Kotlin Multiplatform (KMP) com Compose — shared (domain, data, use cases) + composeApp (UI Android/iOS)",
+  "summary": {
+    "totalSpecs": 21,
+    "implemented": 21,
+    "pending": 0,
+    "progressPercent": 100,
+    "nextSpecNumber": 22
+  },
+  "specs": [
+    { "id": 1, "file": "spec-01-dominio-usuario-perfis-v1.md", "theme": "Domínio usuário e perfis", "implemented": true, "scope": "shared" },
+    { "id": 2, "file": "spec-02-dominio-exercicio-treino-v1.md", "theme": "Domínio exercício e treino", "implemented": true, "scope": "shared" },
+    { "id": 3, "file": "spec-03-dominio-atribuicao-execucao-v1.md", "theme": "Domínio atribuição e execução", "implemented": true, "scope": "shared" },
+    { "id": 4, "file": "spec-04-camada-dados-cache-v1.md", "theme": "Camada de dados / cache (offline-first)", "implemented": true, "scope": "shared" },
+    { "id": 5, "file": "spec-05-persistencia-disco-v1.md", "theme": "Persistência em disco (SQLDelight)", "implemented": true, "scope": "shared" },
+    { "id": 6, "file": "spec-06-feature-criar-aluno-v1.md", "theme": "Feature: criar aluno", "implemented": true, "scope": "shared + composeApp" },
+    { "id": 7, "file": "spec-07-feature-criar-treino-v1.md", "theme": "Feature: criar treino (template)", "implemented": true, "scope": "shared + composeApp" },
+    { "id": 8, "file": "spec-08-feature-atribuir-treino-ao-aluno-v1.md", "theme": "Feature: atribuir treino ao aluno", "implemented": true, "scope": "shared + composeApp" },
+    { "id": 9, "file": "spec-09-feature-visualizar-historico-aluno-professor-v1.md", "theme": "Feature: visualizar histórico do aluno (professor)", "implemented": true, "scope": "shared + composeApp" },
+    { "id": 10, "file": "spec-10-feature-visualizar-treino-atribuido-aluno-v1.md", "theme": "Feature: visualizar treino atribuído (aluno)", "implemented": true, "scope": "shared + composeApp" },
+    { "id": 11, "file": "spec-11-feature-executar-treino-aluno-v1.md", "theme": "Feature: executar treino (aluno)", "implemented": true, "scope": "shared + composeApp" },
+    { "id": 12, "file": "spec-12-feature-historico-treinos-aluno-v1.md", "theme": "Feature: histórico de treinos (aluno)", "implemented": true, "scope": "shared + composeApp" },
+    { "id": 13, "file": "spec-13-ui-entrada-navegacao-v1.md", "theme": "UI: entrada no app e navegação", "implemented": true, "scope": "composeApp" },
+    { "id": 14, "file": "spec-14-ui-telas-professor-v1.md", "theme": "UI: telas do professor", "implemented": true, "scope": "composeApp" },
+    { "id": 15, "file": "spec-15-ui-telas-aluno-v1.md", "theme": "UI: telas do aluno", "implemented": true, "scope": "composeApp" },
+    { "id": 16, "file": "spec-16-ui-design-system-identidade-v1.md", "theme": "UI: design system e identidade visual", "implemented": true, "scope": "composeApp" },
+    { "id": 17, "file": "spec-17-ui-animacoes-motion-v1.md", "theme": "UI: animações e motion", "implemented": true, "scope": "composeApp" },
+    { "id": 18, "file": "spec-18-autenticacao-login-v1.md", "theme": "Autenticação: login com e-mail e senha", "implemented": true, "scope": "shared + composeApp" },
+    { "id": 19, "file": "spec-19-marca-logo-setpoint-v1.md", "theme": "Marca: logo simples e estilizada", "implemented": true, "scope": "composeApp" },
+    { "id": 20, "file": "spec-20-feature-criar-conta-v1.md", "theme": "Feature: criar conta (autocadastro)", "implemented": true, "scope": "shared" },
+    { "id": 21, "file": "spec-21-ui-criar-conta-v1.md", "theme": "UI: criar conta (telas de cadastro)", "implemented": true, "scope": "composeApp" }
+  ],
+  "implementedAreas": {
+    "domain": "User, Role, StudentProfile, Exercise, WorkoutTemplate, WorkoutExercise, WorkoutAssignment, WorkoutExecution, SetExecution (specs 01–03)",
+    "data": "LocalDataSource (in-memory + SQLDelight), repositórios (User, StudentProfile, Exercise, WorkoutTemplate, WorkoutAssignment, WorkoutExecution), persistência de credencial (hash senha) para login/criar conta",
+    "useCases": "CreateStudent, CreateWorkoutTemplate, AssignWorkoutToStudent, GetStudentWorkoutHistory, GetMyAssignedWorkouts, RecordWorkoutExecution, GetMyWorkoutHistory, Login, CreateAccount",
+    "ui": "Entrada, login professor/aluno, criar conta, homes professor/aluno, listas (alunos, treinos), criar aluno/treino, atribuir treino, histórico aluno, executar treino, meu histórico, design system (tema, componentes), animações, logo/marca",
+    "platforms": "Android, iOS (composeApp); shared em commonMain"
+  },
+  "pending": {
+    "specsToCreate": [
+      { "theme": "Sincronização com backend", "description": "Envio/recebimento de dados quando online; cache local como fonte primária (ver docs/REQUISITOS-PRODUTO.md)", "optional": true },
+      { "theme": "API de login / armazenamento de senha em backend", "description": "Complementa spec-18; atualmente login e criar conta usam persistência local (hash)", "optional": true }
+    ],
+    "nextSpecNumber": 22,
+    "tasksOptionalInExistingSpecs": [
+      "spec-13: teste de UI opcional (escolher professor/aluno → home correta)",
+      "spec-15: registrar séries na execução (item não marcado em tasks)",
+      "spec-17: preferência 'reduzir movimento'; estado vazio da lista com fade-in; direção consistente avançar/voltar"
+    ]
+  },
+  "references": {
+    "backlog": "specs/BACKLOG-SPECS.md",
+    "tasks": "specs/tasks.md",
+    "productRequirements": "docs/REQUISITOS-PRODUTO.md",
+    "patterns": "docs/PADROES-KMP.md",
+    "specsFolder": "specs/ (spec-01-...md a spec-21-...md)"
+  }
+}
