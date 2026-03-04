@@ -369,6 +369,29 @@ Decomposição da `spec-16-ui-design-system-identidade-v1.md`. **Ordem recomenda
 
 ---
 
+# tasks — Design system: tema fitness (dark-first, lime, purple)
+
+Refinamento visual do design system (spec-16): identidade inspirada em app de treino — dark-first, verde-limão e roxo claro como destaques, cantos bem arredondados. Aplicável a Android e iOS (composeApp).
+
+---
+
+## 1. Paleta de cores
+
+- [x] **Tema escuro (principal):** fundo cinza escuro/preto; primary = verde-limão (destaques, progresso, seleção); secondary/tertiary = roxo claro (cards, nav selecionado); onSurface/onBackground em branco/cinza claro.
+- [x] **Tema claro (opcional):** mesma identidade adaptada (verde-limão e roxo em tons que funcionem em fundo claro).
+- [x] Manter tokens Material 3 (primary, primaryContainer, secondary, secondaryContainer, surface, error, surfaceContainerLow, etc.) para uso nos componentes existentes.
+
+## 2. Formas (Shapes)
+
+- [x] Aumentar border radius para visual mais arredondado: cards, botões, chips e bottom bar com cantos bem arredondados (medium 16 dp, large 24 dp, extraLarge 32 dp).
+
+## 3. Aplicação
+
+- [x] Atualizar SetPointTheme.kt com as novas cores e shapes; manter tipografia atual.
+- [x] Garantir que SetPointTheme seja usado em todo o app (já é); opcional: default para darkTheme = true para identidade “fitness” dark-first.
+
+---
+
 # tasks — spec-17: UI Animações e motion
 
 Decomposição da `spec-17-ui-animacoes-motion-v1.md`. **Ordem recomendada:** executar na sequência. Escopo: **composeApp**. Depende de spec-16 (design system).
