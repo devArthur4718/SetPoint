@@ -20,6 +20,7 @@ import com.devarthur.setpoint.di.AppDependencies
 import com.devarthur.setpoint.domain.Role
 import com.devarthur.setpoint.navigation.AppScreen
 import com.devarthur.setpoint.session.UserSession
+import com.devarthur.setpoint.ui.entry.CreateAccountScreen
 import com.devarthur.setpoint.ui.entry.EntryScreen
 import com.devarthur.setpoint.ui.entry.LoginScreen
 import com.devarthur.setpoint.ui.professor.AssignWorkoutScreen
@@ -79,6 +80,7 @@ fun App() {
                 AppScreen.Entry -> EntryScreen(
                     onSelectProfessor = { navigate(AppScreen.ProfessorLogin, forward = true) },
                     onSelectStudent = { navigate(AppScreen.StudentLogin, forward = true) },
+                    onCreateAccount = { navigate(AppScreen.CreateAccount(initialRole = null, returnTo = AppScreen.Entry), forward = true) },
                 )
                 AppScreen.ProfessorLogin -> LoginScreen(
                     role = Role.TRAINER,
@@ -87,6 +89,7 @@ fun App() {
                         navigate(AppScreen.ProfessorHome, forward = true)
                     },
                     onBack = { navigate(AppScreen.Entry, forward = false) },
+                    onCreateAccount = { navigate(AppScreen.CreateAccount(initialRole = Role.TRAINER, returnTo = AppScreen.ProfessorLogin), forward = true) },
                 )
                 AppScreen.StudentLogin -> LoginScreen(
                     role = Role.STUDENT,
@@ -95,6 +98,14 @@ fun App() {
                         navigate(AppScreen.StudentHome, forward = true)
                     },
                     onBack = { navigate(AppScreen.Entry, forward = false) },
+                    onCreateAccount = { navigate(AppScreen.CreateAccount(initialRole = Role.STUDENT, returnTo = AppScreen.StudentLogin), forward = true) },
+                )
+                is AppScreen.CreateAccount -> CreateAccountScreen(
+                    initialRole = screen.initialRole,
+                    onSuccess = { role ->
+                        navigate(if (role == Role.TRAINER) AppScreen.ProfessorLogin else AppScreen.StudentLogin, forward = true)
+                    },
+                    onBack = { navigate(screen.returnTo, forward = false) },
                 )
                 AppScreen.ProfessorHome -> {
                     ProfessorHomeScreen(

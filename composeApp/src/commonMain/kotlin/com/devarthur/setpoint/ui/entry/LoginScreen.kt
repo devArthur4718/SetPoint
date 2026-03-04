@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +41,7 @@ fun LoginScreen(
     role: Role,
     onSuccess: (userId: String, role: Role) -> Unit,
     onBack: () -> Unit,
+    onCreateAccount: () -> Unit,
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -125,6 +127,14 @@ fun LoginScreen(
                     text = "Entrar",
                 )
             }
+                Spacer(modifier = Modifier.height(8.dp))
+                TextButton(onClick = onCreateAccount) {
+                    Text(
+                        text = "Não tem conta? Cadastre-se",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
             }
         }
     }

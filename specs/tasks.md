@@ -2,7 +2,7 @@
 
 **Este é o arquivo canônico de tasks.** O agente deve sempre gerar ou atualizar **este** arquivo (`specs/tasks.md`) com as tasks da spec que vai implementar. Não pular esta etapa: spec → **atualizar tasks.md** → implementar.
 
-**Spec em foco atual:** **spec-20** (Feature: criar conta — autocadastro). Ao implementar: branch `spec/20-criar-conta`, tasks abaixo (bloco spec-20), shared (use case + credencial). Specs 01–19 já implementadas.
+**Spec em foco atual:** **spec-21** (UI: criar conta — telas de cadastro). Ao implementar: branch `spec/21-ui-criar-conta`, tasks abaixo (bloco spec-21), composeApp. Specs 01–20 já implementadas.
 
 ---
 
@@ -639,27 +639,27 @@ Decomposição da `spec-21-ui-criar-conta-v1.md`. **Ordem recomendada:** executa
 
 ## 1. Acesso à tela de criar conta
 
-- [ ] Na tela de entrada: adicionar link/botão "Criar conta" (ou "Cadastrar-se"); ao tocar, navegar para tela de criar conta.
-- [ ] Nas telas de login (professor e aluno): adicionar link "Criar conta" (ou "Não tem conta? Cadastre-se"); ao tocar, navegar para tela de criar conta (opcional: passar papel pré-selecionado).
+- [x] Na tela de entrada: adicionar link/botão "Criar conta" (ou "Cadastrar-se"); ao tocar, navegar para tela de criar conta.
+- [x] Nas telas de login (professor e aluno): adicionar link "Criar conta" (ou "Não tem conta? Cadastre-se"); ao tocar, navegar para tela de criar conta (opcional: passar papel pré-selecionado).
 
 ## 2. Tela de criar conta
 
-- [ ] Criar tela com TopAppBar (título "Criar conta", botão Voltar).
-- [ ] Campos: e-mail, senha, confirmar senha (mascarados), nome, papel (Professor/Aluno — chips ou radio), nome de exibição (opcional, visível quando papel = Aluno).
-- [ ] Validação na UI: e-mail válido; senha mín. 6 caracteres; confirmar senha = senha; nome não vazio e ≤ 120 caracteres.
-- [ ] Botão "Criar conta"; ao submeter: chamar CreateAccountUseCase; loading durante a chamada; em falha exibir mensagem (ex.: "E-mail já cadastrado"); em sucesso: navegar para tela de login do papel ou fazer login automático e ir para a home (definir qual fluxo).
-- [ ] "Voltar" retorna à tela anterior (entrada ou login).
+- [x] Criar tela com TopAppBar (título "Criar conta", botão Voltar).
+- [x] Campos: e-mail, senha, confirmar senha (mascarados), nome, papel (Professor/Aluno — chips ou radio), nome de exibição (opcional, visível quando papel = Aluno).
+- [x] Validação na UI: e-mail válido; senha mín. 6 caracteres; confirmar senha = senha; nome não vazio e ≤ 120 caracteres.
+- [x] Botão "Criar conta"; ao submeter: chamar CreateAccountUseCase; loading durante a chamada; em falha exibir mensagem (ex.: "E-mail já cadastrado"); em sucesso: navegar para tela de login do papel ou fazer login automático e ir para a home (definir qual fluxo).
+- [x] "Voltar" retorna à tela anterior (entrada ou login).
 
 ## 3. Navegação e integração
 
-- [ ] Incluir rota/tela CreateAccount no grafo de navegação (App.kt / AppScreen); passar argumentos se necessário (ex.: role pré-selecionado).
-- [ ] Garantir que CreateAccountUseCase está disponível no composeApp (injeção/dependências).
+- [x] Incluir rota/tela CreateAccount no grafo de navegação (App.kt / AppScreen); passar argumentos se necessário (ex.: role pré-selecionado).
+- [x] Garantir que CreateAccountUseCase está disponível no composeApp (injeção/dependências).
 
 ## 4. Critérios de aceitação
 
-- [ ] "Criar conta" acessível da entrada e das telas de login.
-- [ ] Formulário completo com validação; uso do CreateAccountUseCase; sucesso e falha tratados; Voltar funcionando.
-- [ ] Implementação no composeApp; uso do padrão AppBarScreen (spec atual).
+- [x] "Criar conta" acessível da entrada e das telas de login.
+- [x] Formulário completo com validação; uso do CreateAccountUseCase; sucesso e falha tratados; Voltar funcionando.
+- [x] Implementação no composeApp; uso do padrão AppBarScreen (spec atual).
 
 ---
 

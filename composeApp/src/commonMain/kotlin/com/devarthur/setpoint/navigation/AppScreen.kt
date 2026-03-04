@@ -4,6 +4,7 @@ sealed class AppScreen {
     data object Entry : AppScreen()
     data object ProfessorLogin : AppScreen()
     data object StudentLogin : AppScreen()
+    data class CreateAccount(val initialRole: com.devarthur.setpoint.domain.Role? = null, val returnTo: AppScreen = Entry) : AppScreen()
     data object ProfessorHome : AppScreen()
     data object ProfessorListStudents : AppScreen()
     data object CreateStudent : AppScreen()

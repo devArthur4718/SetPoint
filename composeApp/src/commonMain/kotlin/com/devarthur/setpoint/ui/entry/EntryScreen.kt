@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +21,7 @@ import com.devarthur.setpoint.ui.components.SetPointLogo
 fun EntryScreen(
     onSelectProfessor: () -> Unit,
     onSelectStudent: () -> Unit,
+    onCreateAccount: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -68,6 +70,14 @@ fun EntryScreen(
                 text = "Entrar como aluno",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        TextButton(onClick = onCreateAccount) {
+            Text(
+                text = "Criar conta",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary,
             )
         }
     }
