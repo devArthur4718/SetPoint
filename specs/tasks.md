@@ -2,7 +2,7 @@
 
 **Este é o arquivo canônico de tasks.** O agente deve sempre gerar ou atualizar **este** arquivo (`specs/tasks.md`) com as tasks da spec que vai implementar. Não pular esta etapa: spec → **atualizar tasks.md** → implementar.
 
-**Spec em foco atual:** **spec-19** (Marca: logo simples e estilizada). Ao implementar: branch `spec/19-marca-logo`, tasks abaixo (bloco spec-19), composeApp (assets + UI). Specs 01–18 já implementadas.
+**Spec em foco atual:** **spec-20** (Feature: criar conta — autocadastro). Ao implementar: branch `spec/20-criar-conta`, tasks abaixo (bloco spec-20), shared (use case + credencial). Specs 01–19 já implementadas.
 
 ---
 
@@ -605,25 +605,25 @@ Decomposição da `spec-20-feature-criar-conta-v1.md`. **Ordem recomendada:** ex
 
 ## 1. Persistência de credencial (senha)
 
-- [ ] Definir onde armazenar hash de senha por usuário (ex.: tabela UserCredentials com userId + passwordHash, ou extensão da tabela User). Mesma estrutura usada pelo login (spec-18).
-- [ ] Criar interface (ex.: AuthRepository ou UserCredentialsRepository): save(userId, passwordHash), e para login: validate(email, password) ou getHashByUserId.
-- [ ] Implementar repositório (SQLDelight ou in-memory para testes); usar função de hash (ex.: bcrypt ou equivalente disponível em KMP).
+- [x] Definir onde armazenar hash de senha por usuário (ex.: tabela UserCredentials com userId + passwordHash, ou extensão da tabela User). Mesma estrutura usada pelo login (spec-18).
+- [x] Criar interface (ex.: AuthRepository ou UserCredentialsRepository): save(userId, passwordHash), e para login: validate(email, password) ou getHashByUserId.
+- [x] Implementar repositório (SQLDelight ou in-memory para testes); usar função de hash (ex.: bcrypt ou equivalente disponível em KMP).
 
 ## 2. CreateAccountUseCase
 
-- [ ] Criar classe CreateAccountUseCase em application.usecase no shared.
-- [ ] Entrada: email, password, name, role (TRAINER ou STUDENT), displayName (opcional, para STUDENT).
-- [ ] Validar: email formato válido e não vazio; senha mínimo 6 caracteres; nome 1–120 caracteres; role TRAINER ou STUDENT.
-- [ ] Verificar se existe User com mesmo email (UserRepository); se existir, retornar Result.failure("E-mail já cadastrado").
-- [ ] Gerar ids (User, StudentProfile se STUDENT); gerar hash da senha; criar User e persistir; persistir credencial (userId, hash); se STUDENT, criar e persistir StudentProfile.
-- [ ] Retornar Result.success com userId, email, name, role (CreateAccountResult ou equivalente).
+- [x] Criar classe CreateAccountUseCase em application.usecase no shared.
+- [x] Entrada: email, password, name, role (TRAINER ou STUDENT), displayName (opcional, para STUDENT).
+- [x] Validar: email formato válido e não vazio; senha mínimo 6 caracteres; nome 1–120 caracteres; role TRAINER ou STUDENT.
+- [x] Verificar se existe User com mesmo email (UserRepository); se existir, retornar Result.failure("E-mail já cadastrado").
+- [x] Gerar ids (User, StudentProfile se STUDENT); gerar hash da senha; criar User e persistir; persistir credencial (userId, hash); se STUDENT, criar e persistir StudentProfile.
+- [x] Retornar Result.success com userId, email, name, role (CreateAccountResult ou equivalente).
 
 ## 3. Testes unitários
 
-- [ ] Sucesso como TRAINER: User criado, credencial persistida, resultado correto.
-- [ ] Sucesso como STUDENT: User + StudentProfile criados, credencial persistida.
-- [ ] Falha: email inválido; senha curta; email já existente; nome vazio.
-- [ ] Usar repositórios in-memory; commonTest, kotlin.test.
+- [x] Sucesso como TRAINER: User criado, credencial persistida, resultado correto.
+- [x] Sucesso como STUDENT: User + StudentProfile criados, credencial persistida.
+- [x] Falha: email inválido; senha curta; email já existente; nome vazio.
+- [x] Usar repositórios in-memory; commonTest, kotlin.test.
 
 ---
 
