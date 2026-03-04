@@ -1,14 +1,10 @@
 package com.devarthur.setpoint.ui.professor
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +19,11 @@ import com.devarthur.setpoint.di.AppDependencies
 import com.devarthur.setpoint.domain.Role
 import com.devarthur.setpoint.domain.User
 import com.devarthur.setpoint.ui.components.AppBarScreen
+import com.devarthur.setpoint.ui.components.EmptyState
+import com.devarthur.setpoint.ui.components.ErrorMessage
+import com.devarthur.setpoint.ui.components.LoadingContent
+import com.devarthur.setpoint.ui.components.SetPointListCard
+import com.devarthur.setpoint.ui.components.SetPointPrimaryButton
 
 @Composable
 fun ProfessorListStudentsScreen(
@@ -45,37 +46,32 @@ fun ProfessorListStudentsScreen(
     AppBarScreen(
         title = "Alunos",
         onBack = onBack,
-        actions = {
-            Button(onClick = onNavigateToCreateStudent) { Text("Criar aluno") }
-        },
+        actions = { Button(onClick = onNavigateToCreateStudent) { Text("Criar aluno") } },
     ) {
         when {
-            loading -> Text("Carregando...", modifier = Modifier.padding(16.dp))
-            error != null -> Text(
+            loading -> LoadingContent(modifier = it)
+            error != null -> ErrorMessage(
                 "Erro: $error",
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(16.dp),
+                modifier = it,
             )
-            students.isEmpty() -> Column(Modifier.padding(16.dp)) {
-                Text("Nenhum aluno.")
-                Button(onClick = onNavigateToCreateStudent, modifier = Modifier.padding(top = 8.dp)) {
-                    Text("Criar aluno")
-                }
-            }
+            students.isEmpty() -> EmptyState(
+                message = "Nenhum aluno cadastrado.",
+                modifier = it,
+                action = {
+                    SetPointPrimaryButton(
+                        onClick = onNavigateToCreateStudent,
+                        text = "Criar aluno",
+                    )
+                },
+            )
             else -> LazyColumn(
                 modifier = it,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(students) { user ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onNavigateToStudentHistory(user.id) },
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text(user.name, style = MaterialTheme.typography.titleMedium)
-                            Text(user.email, style = MaterialTheme.typography.bodySmall)
-                        }
+                    SetPointListCard(onClick = { onNavigateToStudentHistory(user.id) }) {
+                        Text(user.name, style = MaterialTheme.typography.titleMedium)
+                        Text(user.email, style = MaterialTheme.typography.bodySmall)
                     }
                 }
             }

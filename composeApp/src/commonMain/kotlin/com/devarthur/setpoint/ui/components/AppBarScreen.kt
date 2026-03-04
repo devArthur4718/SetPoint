@@ -7,16 +7,21 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 /**
  * Layout padrão de tela com TopAppBar: título e botão de voltar (ícone) quando [onBack] não é null.
- * Uso: telas internas com navegação "voltar" na barra superior em vez de botão gigante.
+ * [snackbarHostState] opcional: quando fornecido, exibe SnackbarHost no scaffold (feedback de sucesso/erro).
+ * Acessibilidade: botão voltar com contentDescription "Voltar".
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,6 +30,7 @@ fun AppBarScreen(
     onBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     actions: @Composable (() -> Unit)? = null,
+    snackbarHostState: SnackbarHostState? = null,
     content: @Composable (Modifier) -> Unit,
 ) {
     Scaffold(
@@ -34,7 +40,10 @@ fun AppBarScreen(
                 title = { Text(title, style = MaterialTheme.typography.titleLarge) },
                 navigationIcon = {
                     if (onBack != null) {
-                        IconButton(onClick = onBack) {
+                        IconButton(
+                            onClick = onBack,
+                            modifier = Modifier.semantics { contentDescription = "Voltar" },
+                        ) {
                             Text(
                                 text = "←",
                                 style = MaterialTheme.typography.titleLarge,
@@ -51,6 +60,7 @@ fun AppBarScreen(
                 ),
             )
         },
+        snackbarHost = { snackbarHostState?.let { SnackbarHost(it) } },
     ) { paddingValues ->
         Column(
             modifier = Modifier

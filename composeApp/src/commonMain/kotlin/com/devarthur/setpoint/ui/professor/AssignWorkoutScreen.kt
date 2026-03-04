@@ -9,8 +9,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +28,9 @@ import com.devarthur.setpoint.domain.Role
 import com.devarthur.setpoint.domain.User
 import com.devarthur.setpoint.domain.WorkoutTemplate
 import com.devarthur.setpoint.ui.components.AppBarScreen
+import com.devarthur.setpoint.ui.components.ErrorMessage
+import com.devarthur.setpoint.ui.components.SetPointPrimaryButton
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -43,13 +46,18 @@ fun AssignWorkoutScreen(
     var error by remember { mutableStateOf<String?>(null) }
     var loading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(trainerId) {
         templates = AppDependencies.workoutTemplateRepository.listByTrainerId(trainerId)
         students = AppDependencies.userRepository.list().filter { it.role == Role.STUDENT }
     }
 
-    AppBarScreen(title = "Atribuir treino", onBack = onBack) {
+    AppBarScreen(
+        title = "Atribuir treino",
+        onBack = onBack,
+        snackbarHostState = snackbarHostState,
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -86,33 +94,35 @@ fun AssignWorkoutScreen(
                 }
             }
             if (error != null) {
-                Text(
-                    "Erro: $error",
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.padding(top = 8.dp),
-                )
+                ErrorMessage("Erro: $error", modifier = Modifier.fillMaxWidth())
             }
-            Button(
+            SetPointPrimaryButton(
                 onClick = {
                     val tid = selectedTemplateId
                     val sid = selectedStudentId
                     if (tid == null || sid == null) {
                         error = "Selecione template e aluno"
-                        return@Button
+                        return@SetPointPrimaryButton
                     }
                     loading = true
                     error = null
                     scope.launch {
                         val result = AppDependencies.assignWorkoutToStudentUseCase.execute(tid, sid, trainerId)
                         loading = false
-                        result.fold(onSuccess = { onSuccess() }, onFailure = { error = it.message ?: "Erro" })
+                        result.fold(
+                            onSuccess = {
+                                snackbarHostState.showSnackbar("Treino atribuído com sucesso!")
+                                delay(1500)
+                                onSuccess()
+                            },
+                            onFailure = { error = it.message ?: "Erro" },
+                        )
                     }
                 },
                 enabled = !loading,
                 modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
-            ) {
-                Text(if (loading) "Atribuindo..." else "Atribuir")
-            }
+                text = if (loading) "Atribuindo..." else "Atribuir",
+            )
         }
     }
 }
