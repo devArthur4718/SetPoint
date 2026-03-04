@@ -11,6 +11,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.devarthur.setpoint.di.AppDependencies
 import com.devarthur.setpoint.ui.components.AppBarScreen
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -37,8 +39,9 @@ fun CreateStudentScreen(
     var error by remember { mutableStateOf<String?>(null) }
     var loading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    AppBarScreen(title = "Criar aluno", onBack = onBack) {
+    AppBarScreen(title = "Criar aluno", onBack = onBack, snackbarHostState = snackbarHostState) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -91,7 +94,11 @@ fun CreateStudentScreen(
                         )
                         loading = false
                         result.fold(
-                            onSuccess = { onSuccess() },
+                            onSuccess = {
+                                snackbarHostState.showSnackbar("Aluno criado com sucesso")
+                                delay(2500)
+                                onSuccess()
+                            },
                             onFailure = { error = it.message ?: "Erro ao criar aluno" },
                         )
                     }

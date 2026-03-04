@@ -2,7 +2,7 @@
 
 **Este é o arquivo canônico de tasks.** O agente deve sempre gerar ou atualizar **este** arquivo (`specs/tasks.md`) com as tasks da spec que vai implementar. Não pular esta etapa: spec → **atualizar tasks.md** → implementar.
 
-**Spec em foco atual:** ao implementar UI de fluxo, usar spec-13, 14 ou 15. Para **UI moderna** (design system, identidade, animações), usar **spec-16** e **spec-17**. Specs 09–12 (shared) já implementadas.
+**Spec em foco atual:** **spec-17** (UI: animações e motion). Ao implementar: branch `spec/17-ui-animacoes-motion`, tasks abaixo (bloco spec-17), composeApp. Specs 13–16 já implementadas; 09–12 (shared) já implementadas.
 
 ---
 
@@ -359,7 +359,7 @@ Decomposição da `spec-16-ui-design-system-identidade-v1.md`. **Ordem recomenda
 - [ ] Listas vazias com estado vazio dedicado (mensagem + CTA quando aplicável).
 - [ ] Loading com indicador animado (não apenas texto).
 - [ ] Erros exibidos de forma visível; sucesso com snackbar (ou equivalente).
-- [ ] Implementação no composeApp; shared não alterado.
+- [x] Implementação no composeApp; shared não alterado.
 
 ---
 
@@ -375,26 +375,26 @@ Decomposição da `spec-17-ui-animacoes-motion-v1.md`. **Ordem recomendada:** ex
 
 ## 1. Transições de tela
 
-- [ ] Implementar transição animada ao trocar de tela (avançar/voltar): slide horizontal ou fade+slide, duração 200–300 ms.
-- [ ] Integrar com o mecanismo de navegação atual (estado currentScreen); mesma transição para todo o app.
+- [x] Implementar transição animada ao trocar de tela (avançar/voltar): slide horizontal ou fade+slide, duração 200–300 ms.
+- [x] Integrar com o mecanismo de navegação atual (estado currentScreen); mesma transição para todo o app.
 - [ ] Garantir que “avançar” e “voltar” usem o mesmo padrão (ex.: entrada pela direita, saída pela esquerda ao voltar).
 
 ## 2. Animações em listas
 
-- [ ] Listas (alunos, treinos, atribuídos, histórico): itens entram com animação (fade-in + slide ou stagger).
-- [ ] Duração total da lista < 400–500 ms; não bloquear interação.
+- [x] Listas (alunos, treinos, atribuídos, histórico): itens entram com animação (fade-in + slide ou stagger).
+- [x] Duração total da lista < 400–500 ms; não bloquear interação.
 - [ ] Estado vazio da lista: mensagem/ilustração com fade-in suave.
 
 ## 3. Micro-interações
 
-- [ ] Botões: feedback ao toque (ripple ou scale); garantir que CTAs tenham feedback visível.
-- [ ] Cards clicáveis: ripple ou leve scale/elevation ao toque.
-- [ ] AppBar (voltar, ações): ripple ao toque.
+- [x] Botões: feedback ao toque (ripple ou scale); garantir que CTAs tenham feedback visível.
+- [x] Cards clicáveis: ripple ou leve scale/elevation ao toque.
+- [x] AppBar (voltar, ações): ripple ao toque.
 
 ## 4. Feedback animado
 
-- [ ] Snackbar de sucesso/erro: aparecer e desaparecer com animação (slide from bottom ou fade).
-- [ ] Indicador de loading já animado (CircularProgressIndicator ou skeleton) — alinhado com spec-16.
+- [x] Snackbar de sucesso/erro: aparecer e desaparecer com animação (slide from bottom ou fade).
+- [x] Indicador de loading já animado (CircularProgressIndicator ou skeleton) — alinhado com spec-16.
 
 ## 5. Preferência “reduzir movimento”
 
@@ -402,12 +402,12 @@ Decomposição da `spec-17-ui-animacoes-motion-v1.md`. **Ordem recomendada:** ex
 
 ## 6. Critérios de aceitação
 
-- [ ] Navegação entre telas com transição animada (200–400 ms).
-- [ ] Listas com animação de entrada dos itens.
-- [ ] Botões e cards com feedback ao toque.
-- [ ] Snackbar com animação de entrada/saída.
+- [x] Navegação entre telas com transição animada (200–400 ms).
+- [x] Listas com animação de entrada dos itens.
+- [x] Botões e cards com feedback ao toque.
+- [x] Snackbar com animação de entrada/saída.
 - [ ] Respeito à preferência “reduzir movimento” quando disponível.
-- [ ] Implementação no composeApp; shared não alterado.
+- [x] Implementação no composeApp; shared não alterado.
 
 ---
 

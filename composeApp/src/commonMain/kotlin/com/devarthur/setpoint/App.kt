@@ -1,6 +1,15 @@
 package com.devarthur.setpoint
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,89 +31,118 @@ import com.devarthur.setpoint.ui.professor.StudentHistoryScreen
 import com.devarthur.setpoint.ui.student.ExecuteWorkoutScreen
 import com.devarthur.setpoint.ui.student.MyHistoryScreen
 import com.devarthur.setpoint.ui.student.StudentHomeScreen
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import com.devarthur.setpoint.ui.theme.SetPointTheme
+
+private data class NavState(val screen: AppScreen, val forward: Boolean)
 
 @Composable
 fun App() {
-    var currentScreen by remember { mutableStateOf<AppScreen>(AppScreen.Entry) }
+    var navState by remember { mutableStateOf(NavState(AppScreen.Entry, forward = true)) }
     var session by remember { mutableStateOf<UserSession?>(null) }
+    val reduceMotion = com.devarthur.setpoint.ui.motion.reduceMotionEnabled()
+
+    fun navigate(screen: AppScreen, forward: Boolean) {
+        navState = NavState(screen, forward)
+    }
 
     LaunchedEffect(Unit) {
         AppDependencies.seedDefaultUsers()
     }
 
-    MaterialTheme {
+    val darkTheme = isSystemInDarkTheme()
+    SetPointTheme(darkTheme = darkTheme) {
         Surface(modifier = Modifier.fillMaxSize()) {
-            when (val screen = currentScreen) {
+            CompositionLocalProvider(com.devarthur.setpoint.ui.motion.LocalReduceMotion provides reduceMotion) {
+                AnimatedContent(
+                    targetState = navState,
+                    modifier = Modifier.fillMaxSize(),
+                    transitionSpec = {
+                        val transform: ContentTransform = if (reduceMotion) {
+                            fadeIn(animationSpec = tween(0)) togetherWith fadeOut(animationSpec = tween(0))
+                        } else {
+                            val direction = if (targetState.forward) 1 else -1
+                            val enter = slideInHorizontally(animationSpec = tween(300)) { fullWidth -> direction * fullWidth } +
+                                fadeIn(animationSpec = tween(300))
+                            val exit = slideOutHorizontally(animationSpec = tween(300)) { fullWidth -> -direction * fullWidth } +
+                                fadeOut(animationSpec = tween(300))
+                            enter togetherWith exit
+                        }
+                        transform
+                    },
+                    label = "screenTransition",
+                ) { state ->
+                    when (val screen = state.screen) {
                 AppScreen.Entry -> EntryScreen(
                     onSelectProfessor = {
                         session = UserSession(AppDependencies.Constants.TRAINER_ID, Role.TRAINER)
-                        currentScreen = AppScreen.ProfessorHome
+                        navigate(AppScreen.ProfessorHome, forward = true)
                     },
                     onSelectStudent = {
                         session = UserSession(AppDependencies.Constants.STUDENT_ID, Role.STUDENT)
-                        currentScreen = AppScreen.StudentHome
+                        navigate(AppScreen.StudentHome, forward = true)
                     },
                 )
                 AppScreen.ProfessorHome -> {
-                    val s = session!!
                     ProfessorHomeScreen(
-                        onListStudents = { currentScreen = AppScreen.ProfessorListStudents },
-                        onListWorkouts = { currentScreen = AppScreen.ProfessorListWorkouts },
-                        onAssignWorkout = { currentScreen = AppScreen.AssignWorkout },
-                        onLogout = { session = null; currentScreen = AppScreen.Entry },
+                        onListStudents = { navigate(AppScreen.ProfessorListStudents, forward = true) },
+                        onListWorkouts = { navigate(AppScreen.ProfessorListWorkouts, forward = true) },
+                        onAssignWorkout = { navigate(AppScreen.AssignWorkout, forward = true) },
+                        onLogout = { session = null; navigate(AppScreen.Entry, forward = false) },
                     )
                 }
                 AppScreen.ProfessorListStudents -> ProfessorListStudentsScreen(
-                    onNavigateToCreateStudent = { currentScreen = AppScreen.CreateStudent },
-                    onNavigateToStudentHistory = { studentUserId -> currentScreen = AppScreen.StudentHistory(studentUserId) },
-                    onBack = { currentScreen = AppScreen.ProfessorHome },
+                    onNavigateToCreateStudent = { navigate(AppScreen.CreateStudent, forward = true) },
+                    onNavigateToStudentHistory = { studentUserId -> navigate(AppScreen.StudentHistory(studentUserId), forward = true) },
+                    onBack = { navigate(AppScreen.ProfessorHome, forward = false) },
                 )
                 AppScreen.CreateStudent -> CreateStudentScreen(
                     trainerId = session!!.userId,
-                    onSuccess = { currentScreen = AppScreen.ProfessorListStudents },
-                    onBack = { currentScreen = AppScreen.ProfessorListStudents },
+                    onSuccess = { navigate(AppScreen.ProfessorListStudents, forward = false) },
+                    onBack = { navigate(AppScreen.ProfessorListStudents, forward = false) },
                 )
                 AppScreen.ProfessorListWorkouts -> ProfessorListWorkoutsScreen(
                     trainerId = session!!.userId,
-                    onNavigateToCreateWorkout = { currentScreen = AppScreen.CreateWorkout },
-                    onBack = { currentScreen = AppScreen.ProfessorHome },
+                    onNavigateToCreateWorkout = { navigate(AppScreen.CreateWorkout, forward = true) },
+                    onBack = { navigate(AppScreen.ProfessorHome, forward = false) },
                 )
                 AppScreen.CreateWorkout -> CreateWorkoutScreen(
                     trainerId = session!!.userId,
-                    onSuccess = { currentScreen = AppScreen.ProfessorListWorkouts },
-                    onBack = { currentScreen = AppScreen.ProfessorListWorkouts },
+                    onSuccess = { navigate(AppScreen.ProfessorListWorkouts, forward = false) },
+                    onBack = { navigate(AppScreen.ProfessorListWorkouts, forward = false) },
                 )
                 AppScreen.AssignWorkout -> AssignWorkoutScreen(
                     trainerId = session!!.userId,
-                    onSuccess = { currentScreen = AppScreen.ProfessorHome },
-                    onBack = { currentScreen = AppScreen.ProfessorHome },
+                    onSuccess = { navigate(AppScreen.ProfessorHome, forward = false) },
+                    onBack = { navigate(AppScreen.ProfessorHome, forward = false) },
                 )
                 is AppScreen.StudentHistory -> StudentHistoryScreen(
                     studentUserId = screen.studentUserId,
                     trainerId = session!!.userId,
-                    onBack = { currentScreen = AppScreen.ProfessorListStudents },
+                    onBack = { navigate(AppScreen.ProfessorListStudents, forward = false) },
                 )
                 AppScreen.StudentHome -> {
                     StudentHomeScreen(
                         studentUserId = session!!.userId,
-                        onExecuteWorkout = { assignmentId -> currentScreen = AppScreen.ExecuteWorkout(assignmentId) },
-                        onMyHistory = { currentScreen = AppScreen.MyHistory },
-                        onLogout = { session = null; currentScreen = AppScreen.Entry },
+                        onExecuteWorkout = { assignmentId -> navigate(AppScreen.ExecuteWorkout(assignmentId), forward = true) },
+                        onMyHistory = { navigate(AppScreen.MyHistory, forward = true) },
+                        onLogout = { session = null; navigate(AppScreen.Entry, forward = false) },
                     )
                 }
                 is AppScreen.ExecuteWorkout -> ExecuteWorkoutScreen(
                     assignmentId = screen.assignmentId,
                     studentUserId = session!!.userId,
-                    onSuccess = { currentScreen = AppScreen.StudentHome },
-                    onBack = { currentScreen = AppScreen.StudentHome },
+                    onSuccess = { navigate(AppScreen.StudentHome, forward = false) },
+                    onBack = { navigate(AppScreen.StudentHome, forward = false) },
                 )
                 AppScreen.MyHistory -> MyHistoryScreen(
                     studentUserId = session!!.userId,
-                    onBack = { currentScreen = AppScreen.StudentHome },
+                    onBack = { navigate(AppScreen.StudentHome, forward = false) },
                 )
+                    }
+                }
             }
         }
     }

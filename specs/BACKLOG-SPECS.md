@@ -6,16 +6,16 @@ Referência única para saber **quais specs existem** e **quais ainda faltam cri
 
 ## Próxima spec pendente
 
-- **Spec 16** — `spec-16-ui-design-system-identidade-v1.md` (UI: design system e identidade visual).  
-  Ordem: criar branch `spec/16-ui-design-system`, atualizar `tasks.md` com as tasks da spec-16, implementar e testar, abrir PR para main.
+- **Spec 18** — `spec-18-autenticacao-login-v1.md` (Autenticação: login com e-mail e senha).  
+  Ordem: criar branch `spec/18-autenticacao-login`, atualizar `tasks.md` com as tasks da spec-18, implementar e testar, abrir PR para main.
 
 ---
 
 ## Próximos passos (visão geral)
 
-- **Feito:** Specs **01–15** (domínio, dados, features shared 06–12, UI entrada/navegação e telas professor/aluno 13–15).
-- **Agora:** Implementar a **spec-16** (design system e identidade), depois **spec-17** (animações e motion).
-- **Em seguida:** Specs **18–21** (autenticação, marca/logo, criar conta e UI criar conta), na ordem que fizer sentido (ex.: 18 → 19 → 20 → 21).
+- **Feito:** Specs **01–17** (domínio, dados, features shared 06–12, UI entrada/navegação e telas professor/aluno 13–15, design system 16, animações e motion 17).
+- **Agora:** Implementar a **spec-18** (autenticação: login com e-mail e senha).
+- **Em seguida:** Specs **19–21** (marca/logo, criar conta e UI criar conta), na ordem que fizer sentido (ex.: 19 → 20 → 21).
 
 ---
 
@@ -39,7 +39,7 @@ Referência única para saber **quais specs existem** e **quais ainda faltam cri
 | 14 | `spec-14-ui-telas-professor-v1.md` | UI: telas do professor | Sim |
 | 15 | `spec-15-ui-telas-aluno-v1.md` | UI: telas do aluno | Sim |
 | 16 | `spec-16-ui-design-system-identidade-v1.md` | UI: design system e identidade visual | Sim |
-| 17 | `spec-17-ui-animacoes-motion-v1.md` | UI: animações e motion | Não |
+| 17 | `spec-17-ui-animacoes-motion-v1.md` | UI: animações e motion | Sim |
 | 18 | `spec-18-autenticacao-login-v1.md` | Autenticação: login com e-mail e senha | Não |
 | 19 | `spec-19-marca-logo-setpoint-v1.md` | Marca: logo simples e estilizada | Não |
 | 20 | `spec-20-feature-criar-conta-v1.md` | Feature: criar conta (autocadastro) | Não |
