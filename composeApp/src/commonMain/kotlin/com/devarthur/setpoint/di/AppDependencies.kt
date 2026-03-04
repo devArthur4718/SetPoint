@@ -1,5 +1,7 @@
 package com.devarthur.setpoint.di
 
+import com.devarthur.setpoint.application.auth.PasswordHasher
+import com.devarthur.setpoint.application.auth.Sha256PasswordHasher
 import com.devarthur.setpoint.application.usecase.AssignWorkoutToStudentUseCase
 import com.devarthur.setpoint.application.usecase.CreateStudentUseCase
 import com.devarthur.setpoint.application.usecase.CreateWorkoutTemplateUseCase
@@ -7,6 +9,7 @@ import com.devarthur.setpoint.application.usecase.GetMyAssignedWorkoutsUseCase
 import com.devarthur.setpoint.application.usecase.GetMyWorkoutHistoryUseCase
 import com.devarthur.setpoint.application.usecase.GetStudentWorkoutHistoryUseCase
 import com.devarthur.setpoint.application.usecase.IdGenerator
+import com.devarthur.setpoint.application.usecase.LoginUseCase
 import com.devarthur.setpoint.application.usecase.RecordWorkoutExecutionUseCase
 import com.devarthur.setpoint.data.local.InMemoryLocalDataSource
 import com.devarthur.setpoint.data.repository.ExerciseRepositoryImpl
@@ -26,6 +29,7 @@ object AppDependencies {
     private val idGenerator = IdGenerator { "id-${idCounter++}" }
 
     private val local = InMemoryLocalDataSource()
+    private val passwordHasher: PasswordHasher = Sha256PasswordHasher()
 
     val userRepository = UserRepositoryImpl(local)
     val studentProfileRepository = StudentProfileRepositoryImpl(local)
@@ -65,6 +69,10 @@ object AppDependencies {
         workoutAssignmentRepository,
         workoutExecutionRepository,
     )
+    val loginUseCase = LoginUseCase(userRepository, local, passwordHasher)
+
+    /** Senha padrão dos usuários seed (mín. 6 caracteres). */
+    private const val DEFAULT_SEED_PASSWORD = "123456"
 
     suspend fun seedDefaultUsers() {
         if (userRepository.getById(Constants.TRAINER_ID) == null) {
@@ -75,6 +83,7 @@ object AppDependencies {
                 Role.TRAINER,
             ).getOrThrow()
             userRepository.save(trainer).getOrThrow()
+            local.setPasswordHash(Constants.TRAINER_ID, passwordHasher.hash(DEFAULT_SEED_PASSWORD))
         }
         if (userRepository.getById(Constants.STUDENT_ID) == null) {
             val student = User.create(
@@ -91,6 +100,7 @@ object AppDependencies {
                 null,
             ).getOrThrow()
             studentProfileRepository.save(profile).getOrThrow()
+            local.setPasswordHash(Constants.STUDENT_ID, passwordHasher.hash(DEFAULT_SEED_PASSWORD))
         }
         if (exerciseRepository.list().isEmpty()) {
             listOf("Supino reto", "Agachamento", "Remada").forEachIndexed { i, name ->

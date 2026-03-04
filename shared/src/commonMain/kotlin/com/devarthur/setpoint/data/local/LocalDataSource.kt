@@ -18,6 +18,10 @@ interface LocalDataSource {
     fun getUserByEmail(email: String): User?
     fun getAllUsers(): List<User>
 
+    // Auth (hash de senha por userId — MVP local)
+    fun setPasswordHash(userId: String, hash: String)
+    fun getPasswordHash(userId: String): String?
+
     // StudentProfile
     fun saveStudentProfile(profile: StudentProfile)
     fun getStudentProfileById(id: String): StudentProfile?

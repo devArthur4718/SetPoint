@@ -21,6 +21,7 @@ import com.devarthur.setpoint.domain.Role
 import com.devarthur.setpoint.navigation.AppScreen
 import com.devarthur.setpoint.session.UserSession
 import com.devarthur.setpoint.ui.entry.EntryScreen
+import com.devarthur.setpoint.ui.entry.LoginScreen
 import com.devarthur.setpoint.ui.professor.AssignWorkoutScreen
 import com.devarthur.setpoint.ui.professor.CreateStudentScreen
 import com.devarthur.setpoint.ui.professor.CreateWorkoutScreen
@@ -76,14 +77,24 @@ fun App() {
                 ) { state ->
                     when (val screen = state.screen) {
                 AppScreen.Entry -> EntryScreen(
-                    onSelectProfessor = {
-                        session = UserSession(AppDependencies.Constants.TRAINER_ID, Role.TRAINER)
+                    onSelectProfessor = { navigate(AppScreen.ProfessorLogin, forward = true) },
+                    onSelectStudent = { navigate(AppScreen.StudentLogin, forward = true) },
+                )
+                AppScreen.ProfessorLogin -> LoginScreen(
+                    role = Role.TRAINER,
+                    onSuccess = { userId, r ->
+                        session = UserSession(userId, r)
                         navigate(AppScreen.ProfessorHome, forward = true)
                     },
-                    onSelectStudent = {
-                        session = UserSession(AppDependencies.Constants.STUDENT_ID, Role.STUDENT)
+                    onBack = { navigate(AppScreen.Entry, forward = false) },
+                )
+                AppScreen.StudentLogin -> LoginScreen(
+                    role = Role.STUDENT,
+                    onSuccess = { userId, r ->
+                        session = UserSession(userId, r)
                         navigate(AppScreen.StudentHome, forward = true)
                     },
+                    onBack = { navigate(AppScreen.Entry, forward = false) },
                 )
                 AppScreen.ProfessorHome -> {
                     ProfessorHomeScreen(

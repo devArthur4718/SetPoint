@@ -2,6 +2,8 @@ package com.devarthur.setpoint.navigation
 
 sealed class AppScreen {
     data object Entry : AppScreen()
+    data object ProfessorLogin : AppScreen()
+    data object StudentLogin : AppScreen()
     data object ProfessorHome : AppScreen()
     data object ProfessorListStudents : AppScreen()
     data object CreateStudent : AppScreen()

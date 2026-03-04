@@ -2,7 +2,65 @@
 
 **Este é o arquivo canônico de tasks.** O agente deve sempre gerar ou atualizar **este** arquivo (`specs/tasks.md`) com as tasks da spec que vai implementar. Não pular esta etapa: spec → **atualizar tasks.md** → implementar.
 
-**Spec em foco atual:** **spec-17** (UI: animações e motion). Ao implementar: branch `spec/17-ui-animacoes-motion`, tasks abaixo (bloco spec-17), composeApp. Specs 13–16 já implementadas; 09–12 (shared) já implementadas.
+**Spec em foco atual:** **spec-18** (Autenticação: login com e-mail e senha). Ao implementar: branch `spec/18-autenticacao-login`, tasks abaixo (bloco spec-18), shared + composeApp. Specs 01–17 já implementadas.
+
+---
+
+# tasks — spec-18: Autenticação — Login com e-mail e senha
+
+Decomposição da `spec-18-autenticacao-login-v1.md`. **Ordem recomendada:** executar na sequência. Escopo: **shared** (LoginUseCase, persistência de senha hash para MVP local) + **composeApp** (telas de login, fluxo entrada → login → home, Sair).
+
+---
+
+## 1. Persistência de senha (MVP local) — shared
+
+- [x] Estender armazenamento local para hash de senha: contrato (ex.: `AuthCredentialRepository` ou métodos em `LocalDataSource`: salvar/obter hash por userId).
+- [x] Implementar em `InMemoryLocalDataSource`: mapa userId → passwordHash; implementar em `SqlDelightLocalDataSource` (tabela ou coluna) se for usado; senão apenas in-memory para esta spec.
+- [x] Definir contrato de hashing (ex.: interface `PasswordHasher`: hash(plain) → String, verify(plain, hash) → Boolean). Implementação: SHA-256 em commonMain (pure Kotlin ou expect/actual) — não armazenar senha em texto plano.
+- [x] Seed: ao criar usuários padrão (trainer e student), persistir hash da senha padrão (ex.: "123456" ou "password") para os dois; senha mínima 6 caracteres na validação.
+
+## 2. LoginUseCase — shared
+
+- [x] Criar `LoginUseCase` em `application.usecase`: recebe (email, password, role); retorna `Result<LoginResult>` com (userId, role) em sucesso.
+- [x] Injetar `UserRepository`, repositório de credenciais (hash por userId) e `PasswordHasher`.
+- [x] Fluxo: buscar User por email; se não existir ou role != esperado → falha genérica ("E-mail ou senha incorretos"); obter hash do userId; verificar senha; se ok → success(userId, role).
+- [x] Mensagem de falha única (não revelar se email existe ou não).
+
+## 3. Testes unitários — LoginUseCase
+
+- [x] Sucesso: usuário existente com email/senha/role corretos retorna (userId, role).
+- [x] Falha: usuário inexistente; role diferente do esperado; senha errada — todos retornam mensagem genérica.
+- [x] commonTest, kotlin.test, repositórios in-memory com hash de senha conhecido.
+
+## 4. Tela de entrada (atualizada) — composeApp
+
+- [x] Manter tela de entrada com "Sou professor" e "Sou aluno"; ao tocar, navegar para **tela de login do professor** ou **tela de login do aluno** (não mais definir sessão direto).
+- [x] Adicionar rotas `ProfessorLogin` e `StudentLogin` em `AppScreen`; ajustar `App.kt` para exibir essas telas e passar callbacks (onSuccess → set session + navigate to home; onBack → navigate to Entry).
+
+## 5. Telas de login (professor e aluno) — composeApp
+
+- [x] Criar tela de login reutilizável (ou duas variantes): campos e-mail e senha (senha mascarada), botão "Entrar", "Voltar".
+- [x] Validação na UI: e-mail não vazio e formato válido; senha não vazia e mín. 6 caracteres; mensagens de erro inline.
+- [x] Ao submeter: chamar `LoginUseCase(email, senha, role)`; loading durante a chamada; em sucesso: guardar sessão (userId, role) e navegar para home do professor ou aluno; em falha: exibir "E-mail ou senha incorretos" (ou mensagem do use case).
+- [x] "Voltar" navega para tela de entrada.
+
+## 6. Sessão e Sair
+
+- [x] "Sair" nas homes (já existente) continua limpando sessão e navegando para tela de entrada (não para tela de login).
+- [x] Garantir que todas as telas que usam `session!!.userId` só são acessíveis após login (fluxo já protegido por navegação).
+
+## 7. Critérios de aceitação
+
+- [x] Entrada com duas opções; cada uma leva à tela de login correspondente.
+- [x] Tela de login professor e aluno com e-mail, senha, validação, Entrar, loading, erro, Voltar.
+- [x] Credenciais válidas (professor): sessão guardada, navegação para home professor; idem aluno.
+- [x] Credenciais inválidas: mensagem de erro, sem navegação.
+- [x] Sair limpa sessão e volta à entrada.
+- [x] LoginUseCase implementado e testado; integrado ao fluxo UI.
+
+---
+
+*Referência: specs/spec-18-autenticacao-login-v1.md*
 
 ---
 
