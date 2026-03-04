@@ -3,6 +3,7 @@ package com.devarthur.setpoint.di
 import com.devarthur.setpoint.application.auth.PasswordHasher
 import com.devarthur.setpoint.application.auth.Sha256PasswordHasher
 import com.devarthur.setpoint.application.usecase.AssignWorkoutToStudentUseCase
+import com.devarthur.setpoint.application.usecase.CreateAccountUseCase
 import com.devarthur.setpoint.application.usecase.CreateStudentUseCase
 import com.devarthur.setpoint.application.usecase.CreateWorkoutTemplateUseCase
 import com.devarthur.setpoint.application.usecase.GetMyAssignedWorkoutsUseCase
@@ -70,6 +71,13 @@ object AppDependencies {
         workoutExecutionRepository,
     )
     val loginUseCase = LoginUseCase(userRepository, local, passwordHasher)
+    val createAccountUseCase = CreateAccountUseCase(
+        userRepository,
+        studentProfileRepository,
+        local,
+        passwordHasher,
+        idGenerator,
+    )
 
     /** Senha padrão dos usuários seed (mín. 6 caracteres). */
     private const val DEFAULT_SEED_PASSWORD = "123456"
