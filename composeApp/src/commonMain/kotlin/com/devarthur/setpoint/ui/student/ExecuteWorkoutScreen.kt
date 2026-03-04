@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.dp
 import com.devarthur.setpoint.di.AppDependencies
 import com.devarthur.setpoint.util.TimeProvider
 import com.devarthur.setpoint.ui.components.AppBarScreen
+import com.devarthur.setpoint.ui.components.ErrorMessage
+import com.devarthur.setpoint.ui.components.SetPointPrimaryButton
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -36,6 +39,7 @@ fun ExecuteWorkoutScreen(
     var error by remember { mutableStateOf<String?>(null) }
     var loading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(assignmentId) {
         val assignment = AppDependencies.workoutAssignmentRepository.getById(assignmentId)
@@ -47,7 +51,11 @@ fun ExecuteWorkoutScreen(
         }
     }
 
-    AppBarScreen(title = "Executar treino", onBack = onBack) {
+    AppBarScreen(
+        title = "Executar treino",
+        onBack = onBack,
+        snackbarHostState = snackbarHostState,
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -58,14 +66,10 @@ fun ExecuteWorkoutScreen(
                 style = MaterialTheme.typography.titleMedium,
             )
             if (error != null) {
-                Text(
-                    "Erro: $error",
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.padding(top = 8.dp),
-                )
+                ErrorMessage("Erro: $error", modifier = Modifier.fillMaxWidth())
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Button(
+            SetPointPrimaryButton(
                 onClick = {
                     loading = true
                     error = null
@@ -78,14 +82,19 @@ fun ExecuteWorkoutScreen(
                             executedAt = executedAt,
                         )
                         loading = false
-                        result.fold(onSuccess = { onSuccess() }, onFailure = { error = it.message ?: "Erro" })
+                        result.fold(
+                            onSuccess = {
+                                snackbarHostState.showSnackbar("Execução registrada com sucesso!")
+                                delay(1500)
+                                onSuccess()
+                            },
+                            onFailure = { error = it.message ?: "Erro" },
+                        )
                     }
                 },
                 enabled = !loading,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(if (loading) "Salvando..." else "Concluir treino (sem séries)")
-            }
+                text = if (loading) "Salvando..." else "Concluir treino (sem séries)",
+            )
         }
     }
 }

@@ -327,39 +327,41 @@ Decomposição da `spec-16-ui-design-system-identidade-v1.md`. **Ordem recomenda
 
 ## 1. Tema (Material 3)
 
-- [ ] Definir ColorScheme para tema claro: primary, secondary, tertiary, surface, error, onSurface, etc., alinhados à identidade SetPoint (energia/foco, não genérico).
-- [ ] Definir ColorScheme para tema escuro (mesma paleta adaptada).
-- [ ] Aplicar tema no root do app (MaterialTheme / SetPointTheme) com darkTheme conforme configuração do sistema.
-- [ ] Definir escala tipográfica (Typography): Display, Headline, Title, Body, Label com tamanhos e pesos consistentes.
-- [ ] Definir Shapes (border radius para cards, botões, chips) e usar em componentes.
+- [x] Definir ColorScheme para tema claro: primary, secondary, tertiary, surface, error, onSurface, etc., alinhados à identidade SetPoint (energia/foco, não genérico).
+- [x] Definir ColorScheme para tema escuro (mesma paleta adaptada).
+- [x] Aplicar tema no root do app (MaterialTheme / SetPointTheme) com darkTheme conforme configuração do sistema.
+- [x] Definir escala tipográfica (Typography): Display, Headline, Title, Body, Label com tamanhos e pesos consistentes.
+- [x] Definir Shapes (border radius para cards, botões, chips) e usar em componentes.
 
 ## 2. Componentes reutilizáveis
 
-- [ ] Garantir que AppBarScreen (ou equivalente) use cores e tipografia do tema.
-- [ ] Padronizar estilo de cards (lista e ação): padding, radius, surface color; ripple/feedback ao toque.
-- [ ] Padronizar botões: primário, secundário/outlined, texto; uso consistente em todas as telas.
-- [ ] Padronizar OutlinedTextField (formulários): estilo único em Criar aluno, Criar treino, etc.
+- [x] Garantir que AppBarScreen (ou equivalente) use cores e tipografia do tema.
+- [x] Padronizar estilo de cards (lista e ação): padding, radius, surface color; ripple/feedback ao toque.
+- [x] Padronizar botões: primário, secundário/outlined, texto; uso consistente em todas as telas.
+- [x] Padronizar OutlinedTextField (formulários): estilo único em Criar aluno, Criar treino, etc.
+- [x] (Opcional) Chips/tags: para estados (ex.: "Concluído", "Pendente") ou filtros, quando fizer sentido.
+- [x] Acessibilidade: garantir labels para ícones (contentDescription / accessibilityLabel) em AppBar e ações.
 
 ## 3. Estados visuais
 
-- [ ] Substituir texto "Carregando..." por indicador animado (CircularProgressIndicator ou skeleton) em listas e telas que carregam dados.
-- [ ] Estado vazio: em cada lista/tela vazia, exibir layout dedicado (ícone/ilustração + mensagem + CTA quando aplicável), centralizado ou alinhado.
-- [ ] Erro: mensagens com cor de erro e opcional ícone; posição consistente (campo ou topo do conteúdo); opcional snackbar para erros de ação.
-- [ ] Snackbar (ou toast) de sucesso após: criar aluno, criar treino, atribuir treino, registrar execução; mensagem clara e duração curta.
+- [x] Substituir texto "Carregando..." por indicador animado (CircularProgressIndicator ou skeleton) em listas e telas que carregam dados.
+- [x] Estado vazio: em cada lista/tela vazia, exibir layout dedicado (ícone/ilustração + mensagem + CTA quando aplicável), centralizado ou alinhado.
+- [x] Erro: mensagens com cor de erro e opcional ícone; posição consistente (campo ou topo do conteúdo); opcional snackbar para erros de ação.
+- [x] Snackbar (ou toast) de sucesso após: criar aluno, criar treino, atribuir treino, registrar execução; mensagem clara e duração curta.
 
 ## 4. Identidade do produto
 
-- [ ] Tela de entrada: reforçar marca SetPoint (nome, opcional ícone); tom limpo e objetivo.
-- [ ] Homes (professor e aluno): clareza e foco em treino; sem poluição visual.
-- [ ] Verificar contraste e áreas de toque (acessibilidade básica).
+- [x] Tela de entrada: reforçar marca SetPoint (nome, opcional ícone); tom limpo e objetivo.
+- [x] Homes (professor e aluno): clareza e foco em treino; sem poluição visual.
+- [x] Verificar contraste e áreas de toque (acessibilidade básica).
 
 ## 5. Critérios de aceitação
 
-- [ ] Tema light/dark aplicado em todo o app; cores e tipografia consistentes.
-- [ ] Listas vazias com estado vazio dedicado (mensagem + CTA quando aplicável).
-- [ ] Loading com indicador animado (não apenas texto).
-- [ ] Erros exibidos de forma visível; sucesso com snackbar (ou equivalente).
-- [ ] Implementação no composeApp; shared não alterado.
+- [x] Tema light/dark aplicado em todo o app; cores e tipografia consistentes.
+- [x] Listas vazias com estado vazio dedicado (mensagem + CTA quando aplicável).
+- [x] Loading com indicador animado (não apenas texto).
+- [x] Erros exibidos de forma visível; sucesso com snackbar (ou equivalente).
+- [x] Implementação no composeApp; shared não alterado.
 
 ---
 

@@ -25,6 +25,7 @@ import com.devarthur.setpoint.ui.student.StudentHomeScreen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import com.devarthur.setpoint.ui.theme.SetPointTheme
 
 @Composable
 fun App() {
@@ -35,7 +36,7 @@ fun App() {
         AppDependencies.seedDefaultUsers()
     }
 
-    MaterialTheme {
+    SetPointTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             when (val screen = currentScreen) {
                 AppScreen.Entry -> EntryScreen(
