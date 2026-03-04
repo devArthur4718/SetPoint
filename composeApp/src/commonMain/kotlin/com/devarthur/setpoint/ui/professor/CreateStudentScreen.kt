@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
@@ -24,6 +23,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.devarthur.setpoint.di.AppDependencies
 import com.devarthur.setpoint.ui.components.AppBarScreen
+import com.devarthur.setpoint.ui.components.ErrorMessage
+import com.devarthur.setpoint.ui.components.SetPointPrimaryButton
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -41,7 +42,11 @@ fun CreateStudentScreen(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    AppBarScreen(title = "Criar aluno", onBack = onBack, snackbarHostState = snackbarHostState) {
+    AppBarScreen(
+        title = "Criar aluno",
+        onBack = onBack,
+        snackbarHostState = snackbarHostState,
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -70,18 +75,14 @@ fun CreateStudentScreen(
                 singleLine = true,
             )
             if (error != null) {
-                Text(
-                    "Erro: $error",
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.padding(top = 8.dp),
-                )
+                ErrorMessage("Erro: $error", modifier = Modifier.fillMaxWidth())
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Button(
+            SetPointPrimaryButton(
                 onClick = {
                     if (email.isBlank() || name.isBlank()) {
                         error = "Preencha email e nome"
-                        return@Button
+                        return@SetPointPrimaryButton
                     }
                     loading = true
                     error = null
@@ -95,8 +96,8 @@ fun CreateStudentScreen(
                         loading = false
                         result.fold(
                             onSuccess = {
-                                snackbarHostState.showSnackbar("Aluno criado com sucesso")
-                                delay(2500)
+                                snackbarHostState.showSnackbar("Aluno criado com sucesso!")
+                                delay(1500)
                                 onSuccess()
                             },
                             onFailure = { error = it.message ?: "Erro ao criar aluno" },
@@ -104,10 +105,8 @@ fun CreateStudentScreen(
                     }
                 },
                 enabled = !loading,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(if (loading) "Salvando..." else "Criar aluno")
-            }
+                text = if (loading) "Salvando..." else "Criar aluno",
+            )
         }
     }
 }

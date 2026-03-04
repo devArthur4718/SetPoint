@@ -1,18 +1,19 @@
 package com.devarthur.setpoint.ui.professor
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.devarthur.setpoint.ui.components.AppBarScreen
+import com.devarthur.setpoint.ui.components.SetPointActionCard
+import com.devarthur.setpoint.ui.components.SetPointTextButton
 
 @Composable
 fun ProfessorHomeScreen(
@@ -25,13 +26,10 @@ fun ProfessorHomeScreen(
         title = "Professor",
         onBack = null,
         actions = {
-            Text(
+            SetPointTextButton(
+                onClick = onLogout,
+                modifier = Modifier.semantics { contentDescription = "Sair" },
                 text = "Sair",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .clickable(onClick = onLogout),
             )
         },
     ) {
@@ -39,40 +37,34 @@ fun ProfessorHomeScreen(
             modifier = it,
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = onListStudents),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+            SetPointActionCard(
+                onClick = onListStudents,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
             ) {
                 Text(
                     text = "Lista de alunos",
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(20.dp),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = onListWorkouts),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+            SetPointActionCard(
+                onClick = onListWorkouts,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
             ) {
                 Text(
                     text = "Lista de treinos",
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(20.dp),
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
                 )
             }
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = onAssignWorkout),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+            SetPointActionCard(
+                onClick = onAssignWorkout,
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
             ) {
                 Text(
                     text = "Atribuir treino a aluno",
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(20.dp),
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
                 )
             }
         }

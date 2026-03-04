@@ -4,16 +4,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +25,11 @@ import com.devarthur.setpoint.application.usecase.AssignedWorkoutView
 import com.devarthur.setpoint.ui.motion.LocalReduceMotion
 import com.devarthur.setpoint.di.AppDependencies
 import com.devarthur.setpoint.ui.components.AppBarScreen
+import com.devarthur.setpoint.ui.components.EmptyState
+import com.devarthur.setpoint.ui.components.LoadingContent
+import com.devarthur.setpoint.ui.components.SetPointListCard
+import com.devarthur.setpoint.ui.components.SetPointPrimaryButton
+import com.devarthur.setpoint.ui.components.SetPointTextButton
 
 @Composable
 fun StudentHomeScreen(
@@ -50,36 +51,26 @@ fun StudentHomeScreen(
         title = "Aluno",
         onBack = null,
         actions = {
-            Text(
-                text = "Sair",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .clickable(onClick = onLogout),
-            )
+            SetPointTextButton(onClick = onLogout, text = "Sair")
         },
     ) {
         Column(modifier = it) {
-            Button(
+            SetPointPrimaryButton(
                 onClick = onMyHistory,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text("Meu histórico")
-            }
+                text = "Meu histórico",
+            )
             if (loading) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    CircularProgressIndicator()
-                    Text("Carregando...", modifier = Modifier.padding(top = 8.dp), style = MaterialTheme.typography.bodyMedium)
-                }
+                LoadingContent(modifier = Modifier.fillMaxWidth())
             } else if (assigned.isEmpty()) {
-                Text("Nenhum treino atribuído.", modifier = Modifier.padding(16.dp))
+                EmptyState(
+                    message = "Nenhum treino atribuído.",
+                    modifier = Modifier.fillMaxWidth(),
+                )
             } else {
                 LazyColumn(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     itemsIndexed(assigned, key = { _, v -> v.assignment.id }) { index, view ->
@@ -93,20 +84,17 @@ fun StudentHomeScreen(
                             visible = visible.value,
                             enter = if (reduceMotion) fadeIn(tween(0)) else fadeIn(tween(150)) + slideInVertically(tween(150)) { it / 4 },
                         ) {
-                            Card(modifier = Modifier.fillMaxWidth()) {
-                                Column(modifier = Modifier.padding(16.dp)) {
-                                    Text(view.template.name, style = MaterialTheme.typography.titleMedium)
-                                    Text(
-                                        "${view.template.exercises.size} exercício(s)",
-                                        style = MaterialTheme.typography.bodySmall,
-                                    )
-                                    Button(
-                                        onClick = { onExecuteWorkout(view.assignment.id) },
-                                        modifier = Modifier.padding(top = 8.dp),
-                                    ) {
-                                        Text("Executar")
-                                    }
-                                }
+                            SetPointListCard(onClick = { onExecuteWorkout(view.assignment.id) }) {
+                                Text(view.template.name, style = MaterialTheme.typography.titleMedium)
+                                Text(
+                                    "${view.template.exercises.size} exercício(s)",
+                                    style = MaterialTheme.typography.bodySmall,
+                                )
+                                SetPointPrimaryButton(
+                                    onClick = { onExecuteWorkout(view.assignment.id) },
+                                    modifier = Modifier.padding(top = 8.dp),
+                                    text = "Executar",
+                                )
                             }
                         }
                     }
