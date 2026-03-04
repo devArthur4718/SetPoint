@@ -1,0 +1,150 @@
+-- User: id, email, name, role (TRAINER | STUDENT)
+CREATE TABLE User (
+    id TEXT NOT NULL PRIMARY KEY,
+    email TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
+    role TEXT NOT NULL
+);
+
+insertUser:
+INSERT OR REPLACE INTO User(id, email, name, role)
+VALUES (?, ?, ?, ?);
+
+selectUserById:
+SELECT * FROM User WHERE id = ?;
+
+selectUserByEmail:
+SELECT * FROM User WHERE email = ?;
+
+selectAllUsers:
+SELECT * FROM User;
+
+-- StudentProfile
+CREATE TABLE StudentProfile (
+    id TEXT NOT NULL PRIMARY KEY,
+    userId TEXT NOT NULL UNIQUE,
+    displayName TEXT,
+    createdAt INTEGER
+);
+
+insertStudentProfile:
+INSERT OR REPLACE INTO StudentProfile(id, userId, displayName, createdAt)
+VALUES (?, ?, ?, ?);
+
+selectStudentProfileById:
+SELECT * FROM StudentProfile WHERE id = ?;
+
+selectStudentProfileByUserId:
+SELECT * FROM StudentProfile WHERE userId = ?;
+
+-- Exercise
+CREATE TABLE Exercise (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT
+);
+
+insertExercise:
+INSERT OR REPLACE INTO Exercise(id, name, description)
+VALUES (?, ?, ?);
+
+selectExerciseById:
+SELECT * FROM Exercise WHERE id = ?;
+
+selectAllExercises:
+SELECT * FROM Exercise;
+
+-- WorkoutTemplate
+CREATE TABLE WorkoutTemplate (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    trainerId TEXT NOT NULL,
+    createdAt INTEGER
+);
+
+insertWorkoutTemplate:
+INSERT OR REPLACE INTO WorkoutTemplate(id, name, trainerId, createdAt)
+VALUES (?, ?, ?, ?);
+
+selectWorkoutTemplateById:
+SELECT * FROM WorkoutTemplate WHERE id = ?;
+
+selectWorkoutTemplatesByTrainerId:
+SELECT * FROM WorkoutTemplate WHERE trainerId = ? ORDER BY id;
+
+-- WorkoutExercise
+CREATE TABLE WorkoutExercise (
+    id TEXT NOT NULL PRIMARY KEY,
+    workoutTemplateId TEXT NOT NULL,
+    exerciseId TEXT NOT NULL,
+    order_ INTEGER NOT NULL,
+    sets INTEGER NOT NULL,
+    reps INTEGER NOT NULL,
+    loadKg REAL,
+    restSeconds INTEGER
+);
+
+insertWorkoutExercise:
+INSERT OR REPLACE INTO WorkoutExercise(id, workoutTemplateId, exerciseId, order_, sets, reps, loadKg, restSeconds)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+selectWorkoutExercisesByTemplateId:
+SELECT * FROM WorkoutExercise WHERE workoutTemplateId = ? ORDER BY order_;
+
+deleteWorkoutExercisesByTemplateId:
+DELETE FROM WorkoutExercise WHERE workoutTemplateId = ?;
+
+-- WorkoutAssignment
+CREATE TABLE WorkoutAssignment (
+    id TEXT NOT NULL PRIMARY KEY,
+    workoutTemplateId TEXT NOT NULL,
+    studentUserId TEXT NOT NULL,
+    assignedAt INTEGER
+);
+
+insertWorkoutAssignment:
+INSERT OR REPLACE INTO WorkoutAssignment(id, workoutTemplateId, studentUserId, assignedAt)
+VALUES (?, ?, ?, ?);
+
+selectWorkoutAssignmentById:
+SELECT * FROM WorkoutAssignment WHERE id = ?;
+
+selectWorkoutAssignmentsByStudentUserId:
+SELECT * FROM WorkoutAssignment WHERE studentUserId = ? ORDER BY assignedAt;
+
+-- WorkoutExecution
+CREATE TABLE WorkoutExecution (
+    id TEXT NOT NULL PRIMARY KEY,
+    workoutAssignmentId TEXT NOT NULL,
+    executedAt INTEGER NOT NULL
+);
+
+insertWorkoutExecution:
+INSERT OR REPLACE INTO WorkoutExecution(id, workoutAssignmentId, executedAt)
+VALUES (?, ?, ?);
+
+selectWorkoutExecutionById:
+SELECT * FROM WorkoutExecution WHERE id = ?;
+
+selectWorkoutExecutionsByAssignmentId:
+SELECT * FROM WorkoutExecution WHERE workoutAssignmentId = ? ORDER BY executedAt;
+
+-- SetExecution
+CREATE TABLE SetExecution (
+    id TEXT NOT NULL PRIMARY KEY,
+    workoutExecutionId TEXT NOT NULL,
+    workoutExerciseId TEXT NOT NULL,
+    setNumber INTEGER NOT NULL,
+    actualReps INTEGER,
+    actualLoadKg REAL
+);
+
+insertSetExecution:
+INSERT OR REPLACE INTO SetExecution(id, workoutExecutionId, workoutExerciseId, setNumber, actualReps, actualLoadKg)
+VALUES (?, ?, ?, ?, ?, ?);
+
+selectSetExecutionsByExecutionId:
+SELECT * FROM SetExecution WHERE workoutExecutionId = ? ORDER BY workoutExerciseId, setNumber;
+
+deleteSetExecutionsByExecutionId:
+DELETE FROM SetExecution WHERE workoutExecutionId = ?;

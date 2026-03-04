@@ -1,6 +1,6 @@
 # SetPoint (KMP)
 
-Projeto Kotlin Multiplatform com Compose.
+Projeto Kotlin Multiplatform com Compose para personal trainers e alunos. O app é **offline-first**: funciona o melhor possível sem rede, com cache local e sincronização quando online (ver `docs/REQUISITOS-PRODUTO.md`).
 
 ## Rodar no Android
 
