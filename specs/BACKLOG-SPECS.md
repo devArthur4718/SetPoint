@@ -6,16 +6,13 @@ Referência única para saber **quais specs existem** e **quais ainda faltam cri
 
 ## Próxima spec — iniciar agora
 
-- **Spec 21** — UI: criar conta (telas de cadastro). Branch: `spec/21-ui-criar-conta`.
-- **Ação imediata:** criar branch `spec/21-ui-criar-conta` a partir da **main** (atualizada) → atualizar `specs/tasks.md` com as tasks da spec-21 → implementar (composeApp: links + tela criar conta) → abrir PR para main.
-- **Arquivo da spec:** `specs/spec-21-ui-criar-conta-v1.md`.
+- **Specs 20–21** (criar conta) concluídas. Próximas specs: ver backlog (ex.: sincronização com backend, etc.).
 
 ---
 
 ## Próximos passos (visão geral)
 
-- **Feito:** Specs **01–20** (domínio, dados, features shared 06–12, UI 13–17, autenticação 18, marca/logo 19, criar conta use case 20).
-- **Agora:** **Spec-21** (UI criar conta) — **em foco**: link “Criar conta” na entrada e no login; tela de cadastro; integração com CreateAccountUseCase.
+- **Feito:** Specs **01–21** (domínio, dados, features shared 06–12, UI 13–17, autenticação 18, marca/logo 19, criar conta 20–21).
 - **Em seguida:** specs futuras (ex.: sincronização com backend, etc.).
 
 ---
@@ -44,7 +41,7 @@ Referência única para saber **quais specs existem** e **quais ainda faltam cri
 | 18 | `spec-18-autenticacao-login-v1.md` | Autenticação: login com e-mail e senha | Sim |
 | 19 | `spec-19-marca-logo-setpoint-v1.md` | Marca: logo simples e estilizada | Sim |
 | 20 | `spec-20-feature-criar-conta-v1.md` | Feature: criar conta (autocadastro) | Sim |
-| 21 | `spec-21-ui-criar-conta-v1.md` | UI: criar conta (telas de cadastro) | Não |
+| 21 | `spec-21-ui-criar-conta-v1.md` | UI: criar conta (telas de cadastro) | Sim |
 
 ---
 
@@ -53,7 +50,7 @@ Referência única para saber **quais specs existem** e **quais ainda faltam cri
 | # | Arquivo | Conteúdo |
 |---|---------|----------|
 | 20 | `spec-20-feature-criar-conta-v1.md` | **Use case** (shared): CreateAccountUseCase — email, senha, nome, role (TRAINER/STUDENT); validação; criar User + persistir hash de senha; se STUDENT, criar StudentProfile. Depende de persistência de credencial (mesma base do login, spec-18). |
-| 21 | `spec-21-ui-criar-conta-v1.md` | **UI** (composeApp): link “Criar conta” na entrada e nas telas de login; tela de cadastro (e-mail, senha, confirmar senha, nome, papel, opcional displayName); chamada ao use case; sucesso → login ou home. **← Próxima a implementar.** |
+| 21 | `spec-21-ui-criar-conta-v1.md` | **UI** (composeApp): link “Criar conta” na entrada e nas telas de login; tela de cadastro (e-mail, senha, confirmar senha, nome, papel, opcional displayName); chamada ao use case; sucesso → login ou home. |
 
 Ordem: implementar **spec-20** (use case + persistência de senha) primeiro; depois **spec-21** (telas). Tasks em `specs/tasks.md` (blocos spec-20 e spec-21).
 
