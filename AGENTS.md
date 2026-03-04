@@ -63,3 +63,17 @@ Este arquivo orienta o comportamento do agente de IA ao implementar o projeto. S
 5. Escrever novas specs para novas funcionalidades.
 
 **Fonte da verdade:** as especificações em `/specs`. **Ordem de execução:** spec → tasks → implementação → testes.
+
+---
+
+## Workflow Git (obrigatório)
+
+- **Branch base:** o trabalho de implementação parte sempre da branch **main** (atualizada).
+- **Uma spec = uma branch:** cada spec deve ser desenvolvida em uma **branch dedicada**. Ex.: para a spec-16, criar e usar a branch `spec/16-design-system` (ou `spec/16-ui-design-system`). O nome deve deixar claro qual spec está em foco.
+- **Fluxo:**  
+  1. Garantir que está em `main` e atualizado (`git pull origin main`).  
+  2. Criar branch a partir de main: `git checkout -b spec/NN-nome-curto`.  
+  3. Implementar a spec (tasks + código + testes) **somente nessa branch**.  
+  4. Commits na branch da spec, com mensagens que referenciem a spec (ex.: `feat(spec-16): tema Material 3 e estados visuais`).
+- **Pull request:** quando a spec estiver **implementada e testada**, **obrigatoriamente** abrir **pull request** da branch da spec para a **main**. Não fazer merge direto na main a partir da branch da spec; a integração é via PR.
+- **Resumo:** `main` → branch `spec/NN-...` → implementar e testar → **abrir PR para main**.
