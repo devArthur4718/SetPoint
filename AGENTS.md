@@ -10,6 +10,7 @@ Este arquivo orienta o comportamento do agente de IA ao implementar o projeto. S
 - **Módulos**: `shared` (lógica comum), `composeApp` (UI Android/iOS)
 - **Shared**: camadas domain → data; sem UI, sem APIs de uma única plataforma
 - **Padrões**: ver `docs/PADROES-KMP.md` e `.cursor/rules/`
+- **Offline-first**: o app deve funcionar o melhor possível offline; cache local é obrigatório, leitura prioritária do cache, sincronização com backend quando online. Ver `docs/REQUISITOS-PRODUTO.md`.
 
 ---
 
@@ -20,6 +21,7 @@ Este arquivo orienta o comportamento do agente de IA ao implementar o projeto. S
 - **Nunca pular o passo de tasks:** antes de implementar, gerar ou atualizar `tasks.md` com a decomposição da spec.
 - Código simples e legível; evitar overengineering.
 - Respeitar arquitetura KMP: domain e data no shared; UI no composeApp.
+- Em specs de **data**, **repositórios** ou **sync**: considerar sempre cache local e uso offline (ver `docs/REQUISITOS-PRODUTO.md`).
 - Não inventar requisitos que não estejam na spec.
 
 ---
@@ -27,7 +29,7 @@ Este arquivo orienta o comportamento do agente de IA ao implementar o projeto. S
 ## Fluxo obrigatório (Spec Driven)
 
 1. **Ler a spec** do diretório `/specs` referente à tarefa.
-2. **Gerar ou atualizar `specs/tasks.md`** — decompor a spec em tarefas concretas e ordenadas. Se já existir tasks para essa spec, usá-las; caso contrário, criá-las antes de escrever código.
+2. **Gerar ou atualizar `specs/tasks.md`** — decompor a spec em tarefas concretas e ordenadas no **arquivo canônico** `specs/tasks.md`. Este passo é **obrigatório e não pode ser pulado**: sempre preencher/atualizar `tasks.md` com as tasks da spec em foco antes de qualquer implementação.
 3. **Implementar** estritamente com base nas tasks (e na spec).
 4. **Criar testes automatizados** que cubram os critérios de aceitação da spec.
 5. **Garantir** que todos os critérios de aceitação da spec são atendidos.
