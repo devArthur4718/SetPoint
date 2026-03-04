@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.devarthur.setpoint.ui.components.SetPointActionCard
+import com.devarthur.setpoint.ui.components.SetPointLogo
 
 @Composable
 fun EntryScreen(
@@ -27,6 +28,8 @@ fun EntryScreen(
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        SetPointLogo(size = 96.dp)
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "SetPoint",
             style = MaterialTheme.typography.headlineMedium,

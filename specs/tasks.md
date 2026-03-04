@@ -2,7 +2,7 @@
 
 **Este é o arquivo canônico de tasks.** O agente deve sempre gerar ou atualizar **este** arquivo (`specs/tasks.md`) com as tasks da spec que vai implementar. Não pular esta etapa: spec → **atualizar tasks.md** → implementar.
 
-**Spec em foco atual:** **spec-18** (Autenticação: login com e-mail e senha). Ao implementar: branch `spec/18-autenticacao-login`, tasks abaixo (bloco spec-18), shared + composeApp. Specs 01–17 já implementadas.
+**Spec em foco atual:** **spec-19** (Marca: logo simples e estilizada). Ao implementar: branch `spec/19-marca-logo`, tasks abaixo (bloco spec-19), composeApp (assets + UI). Specs 01–18 já implementadas.
 
 ---
 
