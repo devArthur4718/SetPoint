@@ -1,6 +1,5 @@
 package com.devarthur.setpoint.ui.entry
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +26,6 @@ fun EntryScreen(
             .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = "SetPoint",
@@ -45,7 +43,7 @@ fun EntryScreen(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.weight(1f))
         SetPointActionCard(
             onClick = onSelectProfessor,
             modifier = Modifier.fillMaxWidth().widthIn(max = 400.dp),
