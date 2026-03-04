@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Símbolo SetPoint: anel + ponto central (spec-19). Viewport 24x24; safe zone ~80%. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Anel externo (stroke only) -->
+    <path
+        android:pathData="M12,12 m-10,0 a10,10 0 1,1 20,0 a10,10 0 1,1 -20,0"
+        android:strokeWidth="2"
+        android:strokeColor="#C6FF00"
+        android:fillColor="#00000000" />
+    <!-- Ponto central -->
+    <path
+        android:pathData="M12,12 m-3,0 a3,3 0 1,1 6,0 a3,3 0 1,1 -6,0"
+        android:fillColor="#C6FF00"
+        android:strokeColor="#00000000" />
+</vector>
