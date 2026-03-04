@@ -14,6 +14,7 @@ import com.devarthur.setpoint.domain.WorkoutTemplate
 class InMemoryLocalDataSource : LocalDataSource {
     private val users = mutableMapOf<String, User>()
     private val usersByEmail = mutableMapOf<String, User>()
+    private val passwordHashes = mutableMapOf<String, String>()
     private val studentProfiles = mutableMapOf<String, StudentProfile>()
     private val studentProfilesByUserId = mutableMapOf<String, StudentProfile>()
     private val exercises = mutableMapOf<String, Exercise>()
@@ -32,6 +33,12 @@ class InMemoryLocalDataSource : LocalDataSource {
     override fun getUserById(id: String): User? = users[id]
     override fun getUserByEmail(email: String): User? = usersByEmail[email.lowercase()]
     override fun getAllUsers(): List<User> = users.values.toList()
+
+    override fun setPasswordHash(userId: String, hash: String) {
+        passwordHashes[userId] = hash
+    }
+
+    override fun getPasswordHash(userId: String): String? = passwordHashes[userId]
 
     override fun saveStudentProfile(profile: StudentProfile) {
         studentProfiles[profile.id] = profile

@@ -22,6 +22,7 @@ class SqlDelightLocalDataSource(
 
     private val db = SetPointDb(driver)
     private val q = db.setPointDbQueries
+    private val passwordHashes = mutableMapOf<String, String>()
 
     override fun saveUser(user: User) {
         q.insertUser(user.id, user.email, user.name, user.role.name)
@@ -38,6 +39,12 @@ class SqlDelightLocalDataSource(
     override fun getAllUsers(): List<User> {
         return q.selectAllUsers().executeAsList().map { it.toDomain() }
     }
+
+    override fun setPasswordHash(userId: String, hash: String) {
+        passwordHashes[userId] = hash
+    }
+
+    override fun getPasswordHash(userId: String): String? = passwordHashes[userId]
 
     override fun saveStudentProfile(profile: StudentProfile) {
         q.insertStudentProfile(profile.id, profile.userId, profile.displayName, profile.createdAt)

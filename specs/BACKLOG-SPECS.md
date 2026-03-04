@@ -6,16 +6,16 @@ Referência única para saber **quais specs existem** e **quais ainda faltam cri
 
 ## Próxima spec pendente
 
-- **Spec 18** — `spec-18-autenticacao-login-v1.md` (Autenticação: login com e-mail e senha).  
-  Ordem: criar branch `spec/18-autenticacao-login`, atualizar `tasks.md` com as tasks da spec-18, implementar e testar, abrir PR para main.
+- **Spec 18** — em PR na branch `spec/18-autenticacao-login` (Autenticação: login com e-mail e senha). Após **merge** do PR na main, a próxima spec será a **19** (marca/logo).
+- **Ordem:** fazer merge do PR da spec-18 → atualizar esta tabela (spec-18 = Sim) → criar branch `spec/19-marca-logo` para a spec-19.
 
 ---
 
 ## Próximos passos (visão geral)
 
 - **Feito:** Specs **01–17** (domínio, dados, features shared 06–12, UI entrada/navegação e telas professor/aluno 13–15, design system 16, animações e motion 17).
-- **Agora:** Implementar a **spec-18** (autenticação: login com e-mail e senha).
-- **Em seguida:** Specs **19–21** (marca/logo, criar conta e UI criar conta), na ordem que fizer sentido (ex.: 19 → 20 → 21).
+- **Agora:** **Spec-18** implementada e em PR; após merge na main, marcar como concluída e iniciar **spec-19** (marca/logo).
+- **Em seguida:** Specs **19–21** (marca/logo, criar conta e UI criar conta), na ordem 19 → 20 → 21.
 
 ---
 
@@ -40,7 +40,7 @@ Referência única para saber **quais specs existem** e **quais ainda faltam cri
 | 15 | `spec-15-ui-telas-aluno-v1.md` | UI: telas do aluno | Sim |
 | 16 | `spec-16-ui-design-system-identidade-v1.md` | UI: design system e identidade visual | Sim |
 | 17 | `spec-17-ui-animacoes-motion-v1.md` | UI: animações e motion | Sim |
-| 18 | `spec-18-autenticacao-login-v1.md` | Autenticação: login com e-mail e senha | Não |
+| 18 | `spec-18-autenticacao-login-v1.md` | Autenticação: login com e-mail e senha | Em PR |
 | 19 | `spec-19-marca-logo-setpoint-v1.md` | Marca: logo simples e estilizada | Não |
 | 20 | `spec-20-feature-criar-conta-v1.md` | Feature: criar conta (autocadastro) | Não |
 | 21 | `spec-21-ui-criar-conta-v1.md` | UI: criar conta (telas de cadastro) | Não |
@@ -119,4 +119,4 @@ As specs **16 e 17** definem **UI moderna** (design system, identidade, animaç�
 - **Specs já criadas:** pasta `specs/`, arquivos `spec-01-...md` a `spec-21-...md`.
 - **Specs que faltam:** não há arquivo ainda; use esta lista como backlog e crie o documento quando for redigir a spec (seguindo o formato das specs 01–06 e o fluxo em `README.md`).
 
-*Última atualização: 2025-03-04*
+*Última atualização: 2026-03-04*
